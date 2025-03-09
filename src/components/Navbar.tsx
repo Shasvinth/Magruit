@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
 import { useState, useEffect } from 'react';
-import { FaBars, FaTimes, FaUser } from 'react-icons/fa';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 export default function Navbar() {
   const { user, logout } = useAuth();
@@ -14,7 +14,7 @@ export default function Navbar() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                          (window.navigator as any).standalone ||
+                          (window.navigator as { standalone?: boolean }).standalone ||
                           document.referrer.includes('android-app://');
       setIsPwa(isStandalone);
     }

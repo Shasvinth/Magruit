@@ -1,29 +1,28 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Button from '../components/Button';
-import { FaGamepad, FaUser, FaLock, FaStar, FaMagic, FaTrophy } from 'react-icons/fa';
+import { FaGamepad, FaUser, FaStar, FaMagic, FaTrophy } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 export default function Home() {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-  
-  // Handle hydration issues
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [mounted, setIsMounted] = useState(false);
   
   // Floating fruit animation
   const floatingFruits = [
     '🍎', '🍌', '🍒', '🍇', '🍋', '🍊', '🍑', '🍓', '🥝', 
     '🍏', '🍍', '🥭', '🍈', '🍉', '🍐', '🥥'
   ];
+
+  // Handle hydration issues
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   if (!mounted) {
     return null;

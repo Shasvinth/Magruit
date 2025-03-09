@@ -4,24 +4,30 @@ import { useState, useEffect } from 'react';
 import { FaDownload, FaTimes, FaApple, FaAndroid } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Define a type for the beforeinstallprompt event
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
+}
+
 export default function PwaInstallPrompt() {
   const [showPrompt, setShowPrompt] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   
   useEffect(() => {
     // Don't show if already in PWA mode
     const isStandalone = typeof window !== 'undefined' && 
       (window.matchMedia('(display-mode: standalone)').matches || 
-       (window.navigator as any).standalone);
+       (window.navigator as { standalone?: boolean }).standalone);
       
     if (isStandalone) return;
     
     // Detect iOS
     const iOS = typeof navigator !== 'undefined' && 
                   /iPad|iPhone|iPod/.test(navigator.userAgent) && 
-                  !(window as any).MSStream;
+                  !(window as { MSStream?: unknown }).MSStream;
     setIsIOS(iOS);
     
     // Handle the beforeinstallprompt event (Chrome, Edge, etc.)
@@ -29,7 +35,7 @@ export default function PwaInstallPrompt() {
       // Prevent Chrome 67 and earlier from automatically showing the prompt
       e.preventDefault();
       // Store the event for later use
-      setDeferredPrompt(e);
+      setDeferredPrompt(e as BeforeInstallPromptEvent);
       setIsInstallable(true);
     };
     
@@ -122,11 +128,11 @@ export default function PwaInstallPrompt() {
                   </li>
                   <li className="flex items-center">
                     <span className="flex-shrink-0 mr-2">2.</span>
-                    Scroll down and tap "Add to Home Screen"
+                    Scroll down and tap &quot;Add to Home Screen&quot;
                   </li>
                   <li className="flex items-center">
                     <span className="flex-shrink-0 mr-2">3.</span>
-                    Tap "Add" in the top right
+                    Tap &quot;Add&quot; in the top right
                   </li>
                 </ol>
               </div>

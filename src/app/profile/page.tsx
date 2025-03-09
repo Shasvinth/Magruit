@@ -69,7 +69,7 @@ export default function Profile() {
             <h2 className="text-xl font-semibold mb-4 text-gray-800">Game History</h2>
             
             {gameHistory.length === 0 ? (
-              <p className="text-gray-600">You haven't played any games yet.</p>
+              <p className="text-gray-600">You haven&apos;t played any games yet.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">

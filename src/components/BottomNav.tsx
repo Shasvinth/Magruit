@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +8,6 @@ import { FaHome, FaGamepad, FaUser, FaSignInAlt, FaChartBar } from 'react-icons/
 import { motion } from 'framer-motion';
 
 export default function BottomNav() {
-  const router = useRouter();
   const pathname = usePathname();
   const { user, loading } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);

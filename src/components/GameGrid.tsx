@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Button from './Button';
 import confetti from 'canvas-confetti';
 import { motion } from 'framer-motion';
@@ -15,8 +15,8 @@ export default function GameGrid({ grid, isSpinning, matches, onSpin, canPlay }:
   const [animationGrid, setAnimationGrid] = useState<string[][]>([]);
   const [showWinAnimation, setShowWinAnimation] = useState(false);
 
-  // Simulated haptic feedback for mobile
-  const simulateHapticFeedback = () => {
+  // Simulated haptic feedback for mobile - wrapped in useCallback
+  const simulateHapticFeedback = useCallback(() => {
     if ('vibrate' in navigator) {
       if (isSpinning) {
         // Small vibration during spinning
@@ -26,7 +26,7 @@ export default function GameGrid({ grid, isSpinning, matches, onSpin, canPlay }:
         navigator.vibrate([100, 50, 100, 50, 100]);
       }
     }
-  };
+  }, [isSpinning, matches.length]);
 
   // Set up initial animation grid
   useEffect(() => {
@@ -74,7 +74,7 @@ export default function GameGrid({ grid, isSpinning, matches, onSpin, canPlay }:
       
       return () => clearInterval(interval);
     }
-  }, [isSpinning, grid, matches]);
+  }, [isSpinning, grid, matches, simulateHapticFeedback]);
 
   const getCellClassName = (row: number, col: number) => {
     let baseClass = 'flex items-center justify-center text-5xl sm:text-6xl bg-white rounded-xl shadow-lg p-5 transition-all duration-300 transform hover:scale-105 fruit-cell';

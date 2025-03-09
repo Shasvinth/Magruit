@@ -180,7 +180,7 @@ export default function Game() {
           
           {!canPlay && matches.length === 0 && !isSpinning && (
             <div className="mb-6 p-4 bg-yellow-50 text-yellow-700 rounded-xl border-l-4 border-yellow-500">
-              <p className="font-bold text-lg mb-1">You've already played today!</p>
+              <p className="font-bold text-lg mb-1">You&apos;ve already played today!</p>
               <p>Come back tomorrow for another chance to win amazing prizes!</p>
             </div>
           )}

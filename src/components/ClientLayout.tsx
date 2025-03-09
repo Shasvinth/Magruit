@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import BottomNav from './BottomNav';
 import PwaInstallPrompt from './PwaInstallPrompt';
@@ -11,7 +10,6 @@ interface ClientLayoutProps {
 }
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
-  const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
   const [isPwa, setIsPwa] = useState(false);
   
@@ -22,7 +20,7 @@ export default function ClientLayout({ children }: ClientLayoutProps) {
     // Check if the app is running in standalone mode (PWA installed)
     if (typeof window !== 'undefined') {
       const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                          (window.navigator as any).standalone ||
+                          (window.navigator as { standalone?: boolean }).standalone ||
                           document.referrer.includes('android-app://');
       setIsPwa(isStandalone);
                           
