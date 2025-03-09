@@ -1,26 +1,144 @@
 @import "tailwindcss";
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 245, 247, 250;
+  --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
   }
 }
 
+html {
+  height: 100%;
+  overscroll-behavior: none;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Mobile-specific styles */
+body.is-mobile {
+  font-size: 16px; /* Ensure readable text on small screens */
+}
+
+body.is-mobile button,
+body.is-mobile a {
+  min-height: 44px; /* Larger touch targets */
+}
+
+/* PWA specific styles */
+body.pwa-mode {
+  /* Full viewport height in standalone mode */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  /* Add padding for safe areas on iOS */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+}
+
+/* Adjust bottom nav for iOS home indicator - fixed positioning for PWA */
+.pwa-bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  bottom: 0 !important;
+  height: auto !important;
+  z-index: 9999 !important;
+}
+
+/* Fix install prompt positioning */
+.pwa-install-prompt {
+  position: fixed !important;
+  bottom: env(safe-area-inset-bottom, 20px) !important;
+  left: 16px !important;
+  right: 16px !important;
+  z-index: 9999 !important;
+  margin-bottom: 16px !important;
+}
+
+/* Game grid touch feedback */
+.fruit-cell {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Fix for iOS scroll bounce */
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.scroll-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Animation classes */
+.delay-100 { animation-delay: 0.1s; }
+.delay-150 { animation-delay: 0.15s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-250 { animation-delay: 0.25s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-350 { animation-delay: 0.35s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-450 { animation-delay: 0.45s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-550 { animation-delay: 0.55s; }
+
+.text-shadow-sm {
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(107, 114, 128, 0.3);
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(107, 114, 128, 0.5);
+}
+
+/* Safari-specific fixes */
+@supports (-webkit-touch-callout: none) {
+  .pwa-bottom-nav {
+    height: auto !important;
+    padding-bottom: env(safe-area-inset-bottom, 20px) !important;
+  }
+
+  body.pwa-mode main {
+    padding-bottom: 70px !important;
+  }
+  
+  .pwa-install-prompt {
+    bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+  }
 }
